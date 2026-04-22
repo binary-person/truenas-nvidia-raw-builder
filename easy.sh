@@ -263,11 +263,20 @@ restart_docker_service() {
 unload_nvidia_modules() {
   local warn_failures="${1:-1}"
   local module
+  local error_output
 
   for module in nvidia_uvm nvidia_drm nvidia_modeset nvidia; do
-    if ! rmmod "$module" >/dev/null 2>&1; then
+    if ! error_output=$(rmmod "$module" 2>&1 >/dev/null); then
+      if [[ "$error_output" == *"is not currently loaded"* ]]; then
+        continue
+      fi
+
       if [[ "$warn_failures" == "1" ]]; then
-        warn "Could not unload kernel module: ${module}. This can be normal if it is still in use."
+        if [[ -n "$error_output" ]]; then
+          warn "$error_output"
+        else
+          warn "Could not unload kernel module: ${module}. This can be normal if it is still in use."
+        fi
       fi
     fi
   done

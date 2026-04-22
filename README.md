@@ -78,6 +78,7 @@ out/nvidia.raw.sha256
 On your TrueNAS host (example uses 25.04.2.6. replace with your own):
 
 ```bash
+midclt call docker.update '{"nvidia": false}' >/dev/null
 systemd-sysext unmerge
 zfs set readonly=off boot-pool/ROOT/25.04.2.6/usr
 
@@ -88,7 +89,15 @@ cp -n /usr/share/truenas/sysext-extensions/nvidia.raw nvidia_backup.raw
 cp nvidia.raw /usr/share/truenas/sysext-extensions/nvidia.raw
 
 systemd-sysext merge
-systemctl restart docker
+midclt call docker.update '{"nvidia": true}' >/dev/null
+
+# unload previous loaded nvidia drivers (may have to run this set of commands twice)
+rmmod nvidia_uvm
+rmmod nvidia_drm
+rmmod nvidia_modeset
+rmmod nvidia
+
+# check new version
 nvidia-smi
 ```
 
