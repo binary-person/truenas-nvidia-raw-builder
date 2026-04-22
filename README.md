@@ -1,5 +1,7 @@
 # TrueNAS NVIDIA driver raw builder (sysext builder)
 
+![demo of easy.sh](./demo.gif)
+
 ```bash
 # on your truenas host, run
 
