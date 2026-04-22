@@ -245,11 +245,13 @@ restore_usr_readonly() {
 }
 
 disable_nvidia_support() {
+  sleep 0.1
   midclt call docker.update '{"nvidia": false}' >/dev/null
   DOCKER_NVIDIA_TOGGLED=1
 }
 
 enable_nvidia_support() {
+  sleep 0.1
   midclt call docker.update '{"nvidia": true}' >/dev/null
   DOCKER_NVIDIA_TOGGLED=0
 }
@@ -355,7 +357,9 @@ install_selected_driver() {
 
   echo "Install complete."
   echo "Installed: ${asset_name}"
-  echo "Run nvidia-smi to check updated version. If you see an NVRM API mismatch, try rebooting."
+  echo ""
+  echo "Load the new drivers by running 'nvidia-smi'"
+  echo "Check for nvidia driver errors by running 'dmesg -w'"
 }
 
 restore_original_driver() {
@@ -381,6 +385,7 @@ restore_original_driver() {
   # restart_docker_service # handled already by "enable_nvidia_support"
 
   echo "Restore complete."
+  echo ""
   echo "Load the new drivers by running 'nvidia-smi'"
   echo "Check for nvidia driver errors by running 'dmesg -w'"
 }
