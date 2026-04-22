@@ -100,7 +100,7 @@ run_builds() {
         NVIDIA_MODULE_TYPE="$module_type" \
         USE_TMP_DIR=1 \
         PUBLISH=1 \
-        ./devops-nvidia.sh &
+        ./devops-nvidia.sh
       done
     done
 

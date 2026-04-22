@@ -22,7 +22,8 @@ NVIDIA_FILE=truenas-$TRUENAS_VERSION-nvidia-$NVIDIA_VERSION-$NVIDIA_MODULE_TYPE.
 OUT_DIR="$OUT_DIR"
 
 if [[ "$USE_TMP_DIR" == "1" ]]; then
-  OUT_DIR=$(mktemp -d)
+  mkdir -p tmp
+  OUT_DIR=$(mktemp -d tmp/out-XXXXXXXXXX)
 fi
 
 if [ -f "$PWD/$NVIDIA_FILE" ]; then
