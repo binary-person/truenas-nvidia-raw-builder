@@ -1,0 +1,4 @@
+out
+tmp
+*.raw
+*.raw.sha256

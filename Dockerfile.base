@@ -1,0 +1,37 @@
+FROM debian:12
+
+ARG TRUENAS_VERSION=25.04.0
+ARG TRUENAS_TRAIN=TrueNAS-SCALE-Fangtooth
+
+ENV DEBIAN_FRONTEND=noninteractive \
+    SCALE_BUILD_DIR=/opt/scale-build \
+    TRUENAS_VERSION=${TRUENAS_VERSION} \
+    TRUENAS_TRAIN=${TRUENAS_TRAIN}
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    debootstrap \
+    git \
+    python3 \
+    python3-pip \
+    python3-venv \
+    squashfs-tools \
+    unzip \
+    libjson-perl \
+    rsync \
+    libarchive-tools \
+    wget \
+    curl \
+    ca-certificates \
+    gnupg \
+    xz-utils \
+    file \
+ && rm -rf /var/lib/apt/lists/*
+
+RUN git clone --branch "TS-${TRUENAS_VERSION}" --depth 1 \
+    https://github.com/truenas/scale-build.git "${SCALE_BUILD_DIR}"
+
+WORKDIR ${SCALE_BUILD_DIR}
+
+RUN make checkout
+RUN --security=insecure make packages
