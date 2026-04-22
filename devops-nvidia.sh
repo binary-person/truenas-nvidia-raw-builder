@@ -23,7 +23,7 @@ OUT_DIR="$OUT_DIR"
 
 if [[ "$USE_TMP_DIR" == "1" ]]; then
   mkdir -p tmp
-  OUT_DIR=$(mktemp -d tmp/out-XXXXXXXXXX)
+  OUT_DIR=$(mktemp -d ./tmp/out-XXXXXXXXXX)
 fi
 
 if [ -f "$PWD/$NVIDIA_FILE" ]; then
