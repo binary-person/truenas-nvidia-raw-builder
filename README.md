@@ -1,11 +1,12 @@
 # TrueNAS NVIDIA driver raw builder (sysext builder)
 
-- See a list of prebuilt nvidia.raw files in Releases
-- All the credit goes to: https://www.homelabproject.cc/posts/truenas/truenas-build-nvidia-vgpu-driver-extensions-systemd-sysext/
-- This project basically just dumbs the above guide down to using docker commands to build it.
-- Tested on 25.04. Likely works on 25.10.
-- Version compatibility hinges on how much the scale_build/extensions.py file changes and if there are any changes to build commands.
-- Link to scale_build/extensions.py 25.04: https://raw.githubusercontent.com/truenas/scale-build/refs/heads/release/25.04.2.6/scale_build/extensions.py
+```bash
+# on your truenas host, run
+
+curl -fsSL https://raw.githubusercontent.com/binary-person/truenas-nvidia-raw-builder/refs/heads/main/easy.sh | sudo bash
+
+# if it doesn't have the truenas + nvidia driver version, read on to understand how to build one for yourself
+```
 
 ## Use cases
 
@@ -22,7 +23,7 @@ Primarily, you want to install a different driver than the included nvidia drive
 
 - When building, the step `Setting up bootstrap directory` may take 10+ mins. For me it took 13 mins. `Building 'kernel' package` took 1 hour 20 mins
 
-## How to use
+## How to build your own driver if easy.sh doesn't have the truenas+nvidia driver
 
 As an example, commands will be targeting Truenas 25.04.2.6 building for Nvidia driver `580.142`
 
@@ -90,3 +91,13 @@ systemd-sysext merge
 systemctl restart docker
 nvidia-smi
 ```
+
+
+## Extra notes
+
+- See a list of prebuilt nvidia.raw files in Releases
+- All the credit goes to: https://www.homelabproject.cc/posts/truenas/truenas-build-nvidia-vgpu-driver-extensions-systemd-sysext/
+- This project basically just dumbs the above guide down to using docker commands to build it.
+- Tested on 25.04. Likely works on 25.10.
+- Version compatibility hinges on how much the scale_build/extensions.py file changes and if there are any changes to build commands.
+- Link to scale_build/extensions.py 25.04: https://raw.githubusercontent.com/truenas/scale-build/refs/heads/release/25.04.2.6/scale_build/extensions.py
