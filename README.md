@@ -3,7 +3,7 @@
 ```bash
 # on your truenas host, run
 
-curl -fsSL https://raw.githubusercontent.com/binary-person/truenas-nvidia-raw-builder/refs/heads/main/easy.sh | sudo bash
+curl -fsSL https://raw.githubusercontent.com/binary-person/truenas-nvidia-raw-builder/refs/heads/main/easy.sh -o easy.sh && chmod +x easy.sh && sudo ./easy.sh
 
 # if it doesn't have the truenas + nvidia driver version, read on to understand how to build one for yourself
 ```
