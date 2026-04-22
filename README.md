@@ -112,3 +112,17 @@ nvidia-smi
 - Tested on 25.04. Likely works on 25.10.
 - Version compatibility hinges on how much the scale_build/extensions.py file changes and if there are any changes to build commands.
 - Link to scale_build/extensions.py 25.04: https://raw.githubusercontent.com/truenas/scale-build/refs/heads/release/25.04.2.6/scale_build/extensions.py
+
+## Extra notes for others that want to fork this and setup their own auto build system
+
+- I currently run `./queue-all.sh` daily on a machine. The script grabs the newest tag from the `scale-build` repo
+- I use `gh release upload` to upload releases. You can login with `gh auth login`
+- I use `docker` to push images. You can login with `docker login`
+
+To setup your own repo like this
+- Fork this repo
+- Replace all "binaryperson" or "binary-person" with your own
+- Create a release, with the tag and release name "builds"
+- Have a Linux PC somewhere you won't mind running 24/7
+- Have a daily cronjob that runs /path/to/repo/run-in-tmux.sh
+- If TrueNAS releases a new train, and the repo supports it, add the train in `queue-all.sh`. You can also add more nvidia versions there as well if you want
