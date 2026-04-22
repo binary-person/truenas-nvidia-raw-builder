@@ -381,7 +381,8 @@ restore_original_driver() {
   # restart_docker_service # handled already by "enable_nvidia_support"
 
   echo "Restore complete."
-  echo "If the old NVIDIA kernel module still appears active, reboot the host to finish reloading it."
+  echo "Load the new drivers by running 'nvidia-smi'"
+  echo "Check for nvidia driver errors by running 'dmesg -w'"
 }
 
 main() {
