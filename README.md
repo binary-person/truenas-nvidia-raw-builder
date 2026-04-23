@@ -124,5 +124,6 @@ To setup your own repo like this
 - Replace all "binaryperson" or "binary-person" with your own
 - Create a release, with the tag and release name "builds"
 - Have a Linux PC somewhere you won't mind running 24/7
-- Have a daily cronjob that runs /path/to/repo/run-in-tmux.sh
+- Have a daily cronjob that runs `/path/to/repo/run-in-tmux.sh`
+- `run-in-tmux.sh` logs to tmux.log with 1 MiB rotation, keeping tmux.log.1 through .4.
 - If TrueNAS releases a new train, and the repo supports it, add the train in `queue-all.sh`. You can also add more nvidia versions there as well if you want

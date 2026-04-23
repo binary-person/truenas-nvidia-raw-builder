@@ -106,7 +106,9 @@ run_builds() {
 
     wait
 
+    docker rmi binaryperson/truenas-nvidia-raw-builder-base:$truenas_version
     docker rmi binaryperson/truenas-nvidia-raw-builder:$truenas_version
+    docker system prune --force
   done
 }
 
