@@ -2,3 +2,4 @@ out
 tmp
 *.raw
 *.raw.sha256
+tmux.log*
