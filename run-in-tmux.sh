@@ -43,4 +43,4 @@ done
 EOF
 )
 
-tmux new-session -s "$SESSION_NAME" "bash -lc $(printf '%q' "$TMUX_COMMAND")"
+tmux new-session -d -s "$SESSION_NAME" "bash -lc $(printf '%q' "$TMUX_COMMAND")"
