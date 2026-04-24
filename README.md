@@ -1,13 +1,95 @@
 # TrueNAS NVIDIA driver raw builder (sysext builder)
 
-![demo of easy.sh](./demo.gif)
-
 ```bash
-# on your truenas host, run
-
 curl -fsSL https://raw.githubusercontent.com/binary-person/truenas-nvidia-raw-builder/refs/heads/main/easy.sh -o easy.sh && chmod +x easy.sh && sudo ./easy.sh
+```
 
-# if it doesn't have the truenas + nvidia driver version, read on to understand how to build one for yourself
+## Demo
+
+```
+# echo "TrueNAS Version: $(midclt call system.info | jq -r '.version') - $(uname -r) $(uname -m)"
+TrueNAS Version: 25.04.2.6 - 6.12.15-production+truenas x86_64
+# nvidia-smi
+Fri Apr 24 14:54:44 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 550.142                Driver Version: 550.142        CUDA Version: 12.4     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA GeForce GTX 1080 Ti     Off |   00000000:01:00.0 Off |                  N/A |
+|  0%   49C    P0             59W /  250W |       0MiB /  11264MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI        PID   Type   Process name                              GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+# curl -fsSL https://raw.githubusercontent.com/binary-person/truenas-nvidia-raw-builder/refs/heads/main/easy.sh -o easy.sh && chmod +x easy.sh && sudo ./easy.sh
+Detected TrueNAS version: 25.04.2.6
+No backup detected yet.
+
+What would you like to do?
+  [1] install
+  [2] restore
+Choose an option [1-2]: 1
+
+Which NVIDIA driver would you like to install?
+  [1] 575.64.05
+  [2] 580.142
+  [3] 595.58.03
+Choose an option [1-3]: 2
+
+Which kernel module type would you like to install?
+  [1] open
+  [2] proprietary
+Choose an option [1-2]: 2
+
+Selected TrueNAS version: 25.04.2.6
+Selected NVIDIA driver: 580.142
+Selected module type: proprietary
+Downloading truenas-25.04.2.6-nvidia-580.142-proprietary.raw...
+######################################################### 100.0%
+Disabling truenas nvidia support
+Status: Requested configuration applied
+Total Progress: [########################################] 100.00%
+{"id": 1, "pool": "mytruenas_pool", "enable_image_updates": true, "nvidia": false, "cidr_v6": "fdd0::/64", "address_pools": [{"base": "172.17.0.0/12", "size": 24}, {"base": "fdd0::/48", "size": 64}], "dataset": "mytruenas_pool/ix-apps"}
+No extensions found.
+Enabling truenas nvidia support
+Status: Requested configuration applied
+Total Progress: [########################################] 100.00%
+{"id": 1, "pool": "mytruenas_pool", "enable_image_updates": true, "nvidia": true, "cidr_v6": "fdd0::/64", "address_pools": [{"base": "172.17.0.0/12", "size": 24}, {"base": "fdd0::/48", "size": 64}], "dataset": "mytruenas_pool/ix-apps"}
+Install complete.
+Installed: truenas-25.04.2.6-nvidia-580.142-proprietary.raw
+
+Load the new drivers by running 'nvidia-smi'
+Check for nvidia driver errors by running 'dmesg -w'
+# nvidia-smi
+Fri Apr 24 14:57:44 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 580.142                Driver Version: 580.142        CUDA Version: 13.0     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA GeForce GTX 1080 Ti     Off |   00000000:01:00.0 Off |                  N/A |
+|  0%   50C    P0             59W /  250W |       0MiB /  11264MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
 ```
 
 ## Use cases
