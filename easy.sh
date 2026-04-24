@@ -47,7 +47,7 @@ cleanup() {
     fi
 
     if (( DOCKER_NVIDIA_TOGGLED == 1 )); then
-      midclt call docker.update '{"nvidia": true}' >/dev/null 2>&1 || true
+      midclt call -j docker.update '{"nvidia": true}' || true
     fi
   fi
 
@@ -71,7 +71,6 @@ require_commands() {
     rmmod
     zfs
     systemd-sysext
-    systemctl
     install
     mktemp
     sort
@@ -245,21 +244,15 @@ restore_usr_readonly() {
 }
 
 disable_nvidia_support() {
-  sleep 0.1
-  midclt call docker.update '{"nvidia": false}' >/dev/null
+  echo "Disabling truenas nvidia support"
+  midclt call -j docker.update '{"nvidia": false}'
   DOCKER_NVIDIA_TOGGLED=1
 }
 
 enable_nvidia_support() {
-  sleep 0.1
-  midclt call docker.update '{"nvidia": true}' >/dev/null
+  echo "Enabling truenas nvidia support"
+  midclt call -j docker.update '{"nvidia": true}'
   DOCKER_NVIDIA_TOGGLED=0
-}
-
-restart_docker_service() {
-  if ! systemctl restart docker; then
-    warn "Failed to restart docker. You may need to restart it manually."
-  fi
 }
 
 unload_nvidia_modules() {
@@ -338,6 +331,7 @@ install_selected_driver() {
   download_asset "$asset_url" "$asset_name"
 
   disable_nvidia_support
+  unload_nvidia_modules_twice
   unmerge_sysext
   make_usr_writable
 
@@ -352,8 +346,6 @@ install_selected_driver() {
   restore_usr_readonly
   merge_sysext
   enable_nvidia_support
-  unload_nvidia_modules_twice
-  # restart_docker_service # handled already by "enable_nvidia_support"
 
   echo "Install complete."
   echo "Installed: ${asset_name}"
@@ -370,6 +362,7 @@ restore_original_driver() {
   echo "Restoring the original NVIDIA driver from ${BACKUP_RAW}."
 
   disable_nvidia_support
+  unload_nvidia_modules_twice
   unmerge_sysext
   make_usr_writable
 
@@ -381,8 +374,6 @@ restore_original_driver() {
   restore_usr_readonly
   merge_sysext
   enable_nvidia_support
-  unload_nvidia_modules_twice
-  # restart_docker_service # handled already by "enable_nvidia_support"
 
   echo "Restore complete."
   echo ""
